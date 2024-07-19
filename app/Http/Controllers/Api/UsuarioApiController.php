@@ -19,34 +19,42 @@ class UsuarioApiController extends Controller
      */
     public function index()
     {
-        $usuarios = Usuario::all()->map(function($usuarios) {
-            return [
-                'usuario_id' => $usuarios->usuario_id,
-                'pessoa_id' => $usuarios->pessoa_id,
-                'usuario' => $usuarios->usuario,
-                'inativo' => $usuarios->inativo,
-            ];
-        });
+        // $usuarios = Usuario::all()->map(function($usuarios) {
+        //     return [
+        //         'usuario_id' => $usuarios->usuario_id,
+        //         'pessoa_id' => $usuarios->pessoa_id,
+        //         'usuario' => $usuarios->usuario,
+        //         'inativo' => $usuarios->inativo,
+        //     ];
+        // });
         
-        // dd($usuarios);
+        // // dd($usuarios);
         
-        return Inertia::render('Usuario/Usuarios', [
-            'usuarios' => $usuarios
-        ]);
-        // return Inertia::render('Usuario/Usuarios',[
-        //     'usuarios'=>Usuario::all()->map(function($usuarios){
-        //         return [
-        //             'usuario_id'=>$usuarios->usuario_id,
-        //             'nome'=>$usuarios->nome,
-        //         ];
-        //     })
+        // return Inertia::render('Usuario/Usuarios', [
+        //     'usuarios' => $usuarios
         // ]);
+        // // return Inertia::render('Usuario/Usuarios',[
+        // //     'usuarios'=>Usuario::all()->map(function($usuarios){
+        // //         return [
+        // //             'usuario_id'=>$usuarios->usuario_id,
+        // //             'nome'=>$usuarios->nome,
+        // //         ];
+        // //     })
+        // // ]);
+        $usuarios = Usuario::getUsuarioPessoa();
+        dd($usuarios);
+
+        // Transformar os resultados usando o recurso e retornar como JSON
+        return UsuarioPessoaResource::collection($usuarios);
+  
+
     }
 
     
     public function usuarioPessoaJson()
     {
         $usuarios = Usuario::getUsuarioPessoa();
+        dd($usuarios);
 
         // Transformar os resultados usando o recurso e retornar como JSON
         return UsuarioPessoaResource::collection($usuarios);

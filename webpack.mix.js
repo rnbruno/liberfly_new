@@ -1,5 +1,6 @@
 const mix = require('laravel-mix');
 
+console.log("aqui")
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -17,4 +18,8 @@ mix.js('resources/js/app.js', 'public/js')
         require('postcss-import'),
         require('tailwindcss'),
         require('autoprefixer'),
-    ]);
+    ])
+    .scripts([
+        'node_modules/jquery/dist/jquery.min.js', // Caminho para o arquivo jQuery
+        // Outros scripts que você possa precisar (como Select2, por exemplo)
+     ], 'public/js/jquery-plugins.js'); // Nome do arquivo de saída para plugins jQuery

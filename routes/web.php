@@ -61,8 +61,16 @@ Route::post('login', [
 Route::post('logout', [
     \App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'destroy']);
 
-Route::view('/{any?}', 'dashboard')
-    ->name('dashboard')
+// Route::view('/{any?}', 'dashboard')
+//     ->name('dashboard')
+//     ->where('any', '.*');
+
+// Route::get('/{any}', function () {
+//     return view('layouts/app');
+// })->where("any", ".*");
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::view('/{any}', 'dashboard')
     ->where('any', '.*');
 
 // Route::middleware(['auth'])->group(function () {

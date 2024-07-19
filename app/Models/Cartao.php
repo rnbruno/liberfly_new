@@ -40,5 +40,7 @@ class Cartao extends Model
                 'produto.preco as preco',
             )
             ->get();
+
+        
     }
 }

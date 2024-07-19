@@ -186,3 +186,6 @@ php artisan make:controller --resource NomeDoController --model=NomeDoModel
 
 
     // "content-hash": "eda1b72967c28f84988d5374d8de43d0",
+
+
+    root@5e85ac6aff2c:/var/www# php artisan route:list

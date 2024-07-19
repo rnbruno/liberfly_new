@@ -12,11 +12,9 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResource
     {
-        $posts = Usuario::all();
-
-        return Inertia('Posts/Index', compact('posts'));
+        return PostResource::collection(Post::all());
     }
 
     public function dashboard()

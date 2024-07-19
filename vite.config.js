@@ -11,13 +11,18 @@ export default defineConfig({
             ],
             refresh: true,
         }),
-        vue({
-            template:{
-                transformAssetUrls: {},
-                base: null,
-                includeAbsolute: false,
-
-            }
-        })
+        vue({ 
+            template: {
+                transformAssetUrls: {
+                    base: null,
+                    includeAbsolute: false,
+                },
+            },
+        }), // Corrigido: adicionado vírgula e parêntese fechado
     ],
+    resolve: {
+        alias: {
+            vue: 'vue/dist/vue.esm-bundler.js',
+        },
+    },
 });
