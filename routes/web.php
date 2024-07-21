@@ -10,6 +10,7 @@ use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Api\UsuarioApiController;
+use App\Http\Controllers\DashboardController;
 
 
 

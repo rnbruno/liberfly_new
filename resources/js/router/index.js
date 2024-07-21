@@ -14,7 +14,8 @@ import { createRouter, createWebHistory } from "vue-router";
  const Product = { template: "<div>Product</div>"};
  import LayoutComponent from '../layouts/Layout.vue';
 
-import AcessoIndex from '../components/AcessoIndex.vue'
+import AcessoIndex from '../components/AcessoIndex.vue';
+import ContasIndex from '../layouts/ContasIndex.vue';
 // function auth(to, from, next) {
 //     if (JSON.parse(localStorage.getItem('loggedIn'))) {
 //         next()
@@ -75,7 +76,8 @@ const routes = [
     { path: "/acessosIndex", name: 'acesso.index', component: AcessoIndex },
     { path: "/about", component: About},
     { path: "/product", component: Product},
-    { path: "/dasboard", component: Product}
+    { path: "/dasboard", component: Product},
+    { path: "/contas", component: ContasIndex}
 ]
 
 const router = createRouter({

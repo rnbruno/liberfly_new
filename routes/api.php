@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\CartaoController;
 use App\Http\Controllers\Api\UsuarioApiController;
 use App\Http\Controllers\Api\AcessoController;
+use App\Http\Controllers\Api\ContaController;
+
 
 
 // Route::post('/login', [AuthController::class, 'auth']);
@@ -45,3 +47,9 @@ Route::apiResource('acesso', AcessoController::class)->names([
 Route::apiResource('acesso12', AcessoController::class)->names([
     'index1' => 'acesso12.index1'
 ]);
+
+Route::apiResource('contas', ContaController::class)->names([
+    'index' => 'contas.index'
+]);
+
+Route::patch('/contas/{id}', [ContaController::class, 'update']);
