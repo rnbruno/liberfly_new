@@ -71,8 +71,9 @@ Route::post('logout', [
 // })->where("any", ".*");
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::view('/{any}', 'dashboard')
+Route::view('/{any}', 'layouts/app')
     ->where('any', '.*');
+
 
 // Route::middleware(['auth'])->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

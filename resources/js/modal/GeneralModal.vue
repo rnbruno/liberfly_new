@@ -8,10 +8,11 @@
           <button type="button" class="btn-close" @click="closeModal"></button>
         </div>
         <div class="modal-body">
-          <slot name="body1"></slot>
+          <label for="modalInput" class="form-label">{{input_[0]}}</label>
+          <input type="text" class="form-control" id="acount" required>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-warning" @click="confirm">Confirm edit</button>
+          <button type="button" class="btn btn-success" @click="confirm">{{button_[0]}}</button>
         </div>
       </div>
     </div>
@@ -23,7 +24,9 @@ export default {
   props: {
     title: String,
     active_: Boolean,
-    nameItem: String,
+    type: String,
+    button_: Array,
+    input_: Array,
   },
   active_: {
       type: Boolean,

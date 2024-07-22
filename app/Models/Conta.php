@@ -37,7 +37,7 @@ class Conta extends Model
     
     public static function atualizarInAtivoConta($conta, $inativo)
     {
-;
+
         $updated = DB::table('conta')
             ->where('conta_id', $conta)
             ->update([
@@ -45,5 +45,28 @@ class Conta extends Model
             ]);
 
         return $updated;
+    }
+    public static function atualizarNameConta($conta_id, $conta)
+    {
+
+        $updated = DB::table('conta')
+            ->where('conta_id', $conta_id)
+            ->update([
+                'conta' => $conta,
+            ]);
+
+        return $updated;
+    }
+    public static function insertConta($conta)
+    {
+        $nextId = DB::select("SHOW TABLE STATUS LIKE 'conta'")[0]->Auto_increment;
+
+        $inserted = DB::table('conta')
+            ->insert([
+                'conta' => $conta,
+                'conta_id' => $nextId
+            ]);
+
+        return $inserted;
     }
 }

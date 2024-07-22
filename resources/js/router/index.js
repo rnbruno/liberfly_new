@@ -15,7 +15,10 @@ import { createRouter, createWebHistory } from "vue-router";
  import LayoutComponent from '../layouts/Layout.vue';
 
 import AcessoIndex from '../components/AcessoIndex.vue';
+import MainApp from '../components/mainapp.vue';
 import ContasIndex from '../layouts/ContasIndex.vue';
+import CartaoIndex from '../Usuario/Cartao.vue';
+
 // function auth(to, from, next) {
 //     if (JSON.parse(localStorage.getItem('loggedIn'))) {
 //         next()
@@ -72,12 +75,13 @@ import ContasIndex from '../layouts/ContasIndex.vue';
 //                 component: Login
 
 const routes = [
-    { path: "/", name: 'acesso2.index', component: AcessoIndex },
+    { path: "/", name: 'home', component: AcessoIndex },
     { path: "/acessosIndex", name: 'acesso.index', component: AcessoIndex },
     { path: "/about", component: About},
     { path: "/product", component: Product},
     { path: "/dasboard", component: Product},
-    { path: "/contas", component: ContasIndex}
+    { path: "/contas", component: ContasIndex},
+    { path: "/cartao", name: 'cartaoIndex', component: CartaoIndex}
 ]
 
 const router = createRouter({

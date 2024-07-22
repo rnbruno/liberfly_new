@@ -53,3 +53,5 @@ Route::apiResource('contas', ContaController::class)->names([
 ]);
 
 Route::patch('/contas/{id}', [ContaController::class, 'update']);
+Route::patch('/contas/update-name/{id}', [ContaController::class, 'updateName']);
+Route::patch('/contas/store/{id}', [ContaController::class, 'store']);

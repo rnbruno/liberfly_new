@@ -2,7 +2,7 @@
 
     import { useForm } from '@inertiajs/vue3';
     import {router} from '@inertiajs/vue3';
-    import Swal from '../../plugins/sweetalert2';
+    import Swal from '../plugins/sweetalert2';
     import axios from 'axios';
 
     // defineProps({
