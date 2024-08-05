@@ -9,7 +9,9 @@ use App\Http\Controllers\Api\CartaoController;
 use App\Http\Controllers\Api\UsuarioApiController;
 use App\Http\Controllers\Api\AcessoController;
 use App\Http\Controllers\Api\ContaController;
-
+use App\Http\Controllers\Api\MarcacoesController;
+use App\Http\Controllers\Api\MedicalController;
+use App\Http\Controllers\Api\HorariosDisponiveisController;
 
 
 // Route::post('/login', [AuthController::class, 'auth']);
@@ -55,3 +57,15 @@ Route::apiResource('contas', ContaController::class)->names([
 Route::patch('/contas/{id}', [ContaController::class, 'update']);
 Route::patch('/contas/update-name/{id}', [ContaController::class, 'updateName']);
 Route::patch('/contas/store/{id}', [ContaController::class, 'store']);
+
+Route::get('/marcacoes/recepcionista', [MarcacoesController::class, 'getMarcacaoRecepcionista'])->name('marcacoes.getMarcacaoRecepcionista');
+
+Route::put('/marcacoes/update/{id}', [MarcacoesController::class, 'update_medical'])->name('marcacoes.update_medical');
+
+Route::put('/marcacoes/excluido/{id}', [MarcacoesController::class, 'excluido'])->name('marcacoes.excluido');
+
+Route::apiResource('/marcacoes', MarcacoesController::class);
+
+Route::apiResource('/horarios_disponiveis', HorariosDisponiveisController::class);
+
+Route::apiResource('/medical', MedicalController::class);

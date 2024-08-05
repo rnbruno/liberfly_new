@@ -10,22 +10,22 @@ Alpine.start();
 
 import {createApp, onMounted} from 'vue'
 import LaravelVuePagination from 'laravel-vue-pagination';
-import MainApp from './components/mainapp.vue';
 import router from './router'
 import VueSweetalert2 from "vue-sweetalert2";
 import useAuth from "./composables/auth";
 import { abilitiesPlugin } from '@casl/vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import vuetify from '../js/vuetify/index';
 // Importar ícones específicos
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import '@fortawesome/fontawesome-free/css/all.min.css'; // Importa o CSS do Font Awesome
-
+import { InertiaProgress } from '@inertiajs/progress';
 
 library.add(fas, fab);
-// import ability from './Pages/services/ability';
-// import Select2 from 'vue3-select2-component';
+import ability from './services/ability';
+
 
 
 const app = createApp({
@@ -33,18 +33,14 @@ const app = createApp({
     //     const { getUser } = useAuth()
     //     onMounted(getUser)
     // }
-    components:{
-      MainApp
-    }
 })
-app.component('mainapp', MainApp);
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.use(router)
 app.use(VueSweetalert2)
 app.use(library)
 app.use(FontAwesomeIcon)
-// app.use(abilitiesPlugin, ability)
+app.use(vuetify)
+app.use(abilitiesPlugin, ability)
 app.component('Pagination', LaravelVuePagination)
-// app.component('Select2', Select2)
+app.use(InertiaProgress);
 app.mount('#app')
-// console.log('Vue.js app initialized');
