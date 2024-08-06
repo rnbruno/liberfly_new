@@ -56,13 +56,23 @@
                                     <button v-if="user.type_user !== 1" @click.prevent="deleteMarcacao(marcacao.id)"
                                         class="btn btn-danger ml-2" title="Desativar marcação"><i class="fa fa-trash"
                                             aria-hidden="true"></i></button>
-                                    <button @click="edit(marcacao.id)" class="btn btn-warning ml-2"
+                                    <button @click="edit(marcacao.id, marcacao.reason, marcacao.notes)" class="btn btn-warning ml-2"
                                         title="Editar marcação"><i class="fa fa-trash"
                                             aria-hidden="true"></i>Edit</button>
-                                    <Modal_e  @close="isModalVisible"
-                                        :active_att="showModalAtt" :initialInputValue="modalInputValue">
-                                        <h2>Modal Content</h2>
-                                        <p>This is the content of the modal.</p>
+                                    <Modal_e @close="closeModal1" :active_att="showModalAtt"
+                                        :initialInputValue="modalInputValue" @confirm="confirmarEdicao1">
+                                        <template #bodyAtt1>
+                                            <div class="mb-3">
+                                                <label for="modalInput" class="">Reason</label>
+                                                <input type="hidden"  v-model="modalData.id" />
+                                                <textarea class="form-control" type="text" 
+                                                    v-model="modalData.reason"></textarea>
+                                                <label for="modalInput" class="">Notes</label>
+                                                <!-- <input v-model="inputValue" /> -->
+                                                <textarea class="form-control" type="text" 
+                                                    v-model="modalData.notes"></textarea>
+                                            </div>
+                                        </template>
                                     </Modal_e>
 
                                 </div>
@@ -120,10 +130,11 @@ export default {
             modalInitialOption: 1,
             hiddenValue: 'hidden_value',
             marcacaoId_: '',
+            isModalVisible1: false,
         };
     },
     setup() {
-        const { marcacao, marcacoes, getMarcacoes, updateMarcacoes, deleteMarcacao } = useMarcacoes();
+        const { marcacao, marcacoes, getMarcacoes, updateMarcacoes, deleteMarcacao, edicaoMarcacoes } = useMarcacoes();
         const { medical, medicals, getMedicals } = useMedicals();
         const { user, processing, logout } = useAuth()
 
@@ -207,9 +218,19 @@ export default {
             await getMarcacoes();
         }
 
+        const modalData = ref({
+            reason: '',
+            notes: '',
+            id: ''
+        });
         const confirmarAtribuir = async (payload) => {
             const { selectedOption, hiddenValue } = payload;
             updateMarcacoes(hiddenValue, selectedOption);
+            await atualizarMark(hiddenValue);
+        };
+        const confirmarEdicao1 = async (payload) => {
+            const { selectedOption, hiddenValue } = payload;
+            edicaoMarcacoes(hiddenValue, selectedOption);
             await atualizarMark(hiddenValue);
         };
 
@@ -228,7 +249,8 @@ export default {
             confirmarAtribuir,
             desactiveconta,
             deleteMarcacao,
-            user, processing, logout
+            user, processing, logout,
+            confirmarEdicao1
         };
     },
     methods: {
@@ -246,6 +268,10 @@ export default {
         closeModal() {
             this.isModalVisible = false;
         },
+        closeModal1() {
+            // this.isModalVisible = false;
+            this.showModalAtt = false;
+        },
         CreateMarcacao() {
             this.modalTitle = `Marcação ID: ${marcacaoId}`;
             this.modalInputValue = 'Initial value'; // Substitua pelo valor desejado
@@ -254,9 +280,10 @@ export default {
             this.isModalVisible = true;
             this.marcacaoId_ = marcacaoId;
         },
-        edit() {
+        edit(id) {
+            console.log("selecioanndo")
             this.modalInputValue = 'Initial value'; // Substitua pelo valor desejado
-            // this.modalInputValue2 = date; // Substitua pelo valor desejado
+            this.initialInputValue = id; // Substitua pelo valor desejado
             this.showModalAtt = true; // Substitua pelo valor desejado
             this.isModalVisible = true;
         },

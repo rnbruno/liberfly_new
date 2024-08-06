@@ -63,6 +63,8 @@ Route::get('/marcacoes/recepcionista', [MarcacoesController::class, 'getMarcacao
 
 Route::put('/marcacoes/update/{id}', [MarcacoesController::class, 'update_medical'])->name('marcacoes.update_medical');
 
+Route::put('/marcacoes/edicao/{id}', [MarcacoesController::class, 'edicao'])->name('marcacoes.edicao');
+
 Route::put('/marcacoes/excluido/{id}', [MarcacoesController::class, 'excluido'])->name('marcacoes.excluido');
 
 Route::apiResource('/marcacoes', MarcacoesController::class);
