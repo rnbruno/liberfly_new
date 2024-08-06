@@ -28,6 +28,20 @@ class HorariosDisponiveisSeeder extends Seeder
             ['data' => '2024-08-11', 'hora_inicio' => '15:30:00', 'hora_fim' => '16:00:00'],
 
             ['data' => '2024-08-12', 'hora_inicio' => '10:00:00', 'hora_fim' => '10:30:00'],
+            
+            ['data' => '2024-08-13', 'hora_inicio' => '08:00:00', 'hora_fim' => '08:30:00'],
+            ['data' => '2024-08-13', 'hora_inicio' => '08:30:00', 'hora_fim' => '09:00:00'],
+            ['data' => '2024-08-13', 'hora_inicio' => '10:00:00', 'hora_fim' => '11:00:00'],
+            ['data' => '2024-08-13', 'hora_inicio' => '14:30:00', 'hora_fim' => '15:00:00'],
+            ['data' => '2024-08-13', 'hora_inicio' => '15:00:00', 'hora_fim' => '15:30:00'],
+
+            ['data' => '2024-08-14', 'hora_inicio' => '08:00:00', 'hora_fim' => '08:30:00'],
+            ['data' => '2024-08-14', 'hora_inicio' => '09:00:00', 'hora_fim' => '09:30:00'],
+            ['data' => '2024-08-14', 'hora_inicio' => '10:00:00', 'hora_fim' => '10:30:00'],
+            ['data' => '2024-08-14', 'hora_inicio' => '15:00:00', 'hora_fim' => '15:30:00'],
+            ['data' => '2024-08-14', 'hora_inicio' => '15:30:00', 'hora_fim' => '16:00:00'],
+
+            ['data' => '2024-08-15', 'hora_inicio' => '10:00:00', 'hora_fim' => '10:30:00'],
         ];
 
         foreach ($horarios as $horario) {

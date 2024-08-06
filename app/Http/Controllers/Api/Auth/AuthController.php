@@ -20,13 +20,14 @@ class AuthController extends Controller
             ]);
         }
 
-        // Logout others devices
-        // if ($request->has('logout_others_devices'))
         $user->tokens()->delete();
+
+        $request->session()->put('id', $user->id);
 
         $token = $user->createToken($request->device_name)->plainTextToken;
 
         return response()->json([
+            'id' => $user->id,
             'token' => $token,
         ]);
     }

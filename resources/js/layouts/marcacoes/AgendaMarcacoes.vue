@@ -4,61 +4,53 @@
 
         <div class="row g-5">
             <div class="col-md-12">
-                <form class="needs-validation">
+                <form class="needs-validation" @submit.prevent="submitForm" method="post">
                     <div class="row g-3">
-                        <div class="col-sm-6">
-                            <label for="firstName" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
 
-                        </div>
+                        <div class="col-md-5">
+                            <label for="country" class="form-label">Animal Cadastrado</label>
+                            <select class="form-control" for="animaluser_" id="animaluser_" name="animaluser_"
+                                v-model="selectedOptionAnimalUser" required>
+                                <option v-for="optionAnimalUser in modalOptionsAnimalsUser"
+                                    :key="optionAnimalUser.value" :value="optionAnimalUser.value">
+                                    {{ optionAnimalUser.text }}
+                                </option>
+                            </select>
 
-                        <div class="col-6">
-                            <label for="username" class="form-label">Nome do Animal</label>
-                            <div class="input-group has-validation">
-                                <input type="text" class="form-control" id="username" placeholder="Username" required>
-                            </div>
-                        </div>
-
-                        <div class="col-6">
-                            <label for="email" class="form-label">Email <span
-                                    class="text-body-secondary"></span></label>
-                            <input type="email" class="form-control" id="email" placeholder="you@example.com">
-
-                        </div>
-
-                        <div class="col-6">
-                            <label for="email" class="form-label">Idade <span
-                                    class="text-body-secondary"></span></label>
-                            <input type="email" class="form-control" id="int" placeholder="2">
-                        </div>
-
-                        <div class="col-12">
-                            <label for="address" class="form-label">Sintomas</label>
-                            <input type="text" class="form-control" id="address" placeholder="Inform os sintomas"
-                                required>
-                        </div>
-
-                        <div class="col-12">
-                            <label for="address2" class="form-label">Address 2 <span
-                                    class="text-body-secondary">(Optional)</span></label>
-                            <input type="datetime-local" class="form-control" id="address2"
-                                placeholder="Apartment or suite">
                         </div>
 
                         <div class="col-md-5">
-                            <label for="country" class="form-label">Tipo Animal</label>
-                            <select class="form-select" id="country" required>
-                                <option>United States</option>
-                            </select>
-                            <select class="form-control" v-model="selectedOption">
-                                <option v-for="option in options" :key="option.value" :value="option.value">
-                                    {{ option.text }}
+                            <label for="country" class="form-label">Notes</label>
+                            <div class="autocomplete">
+                                <textarea type="text" for="note" id="note" name="note" v-model="searchQuery"
+                                    @input="filterSuggestions" @focus="showSuggestions = true" @blur="hideSuggestions"
+                                    class="form-control" required></textarea>
+                                <ul v-if="showSuggestions" class="suggestions-list">
+                                    <li v-for="(suggestion, index) in filteredSuggestions" :key="index"
+                                        @mousedown.prevent="selectSuggestion(suggestion)" class="suggestion-item">
+                                        {{ suggestion }}
+                                    </li>
+                                </ul>
+                                <!-- <span v-if="errors.note">{{ errors.note }}</span> -->
+                            </div>
+                        </div>
+
+                        <div class="col-md-5">
+                            <label for="country" class="form-label">Horarios</label>
+                            <select class="form-control" id="horariosD" name="horariosD" for="horariosD"
+                                v-model="selectedOptionHorariosDisponiveis" required>
+                                <option v-for="optionHorariosDisponivel in modalOptionsHorariosDisponiveis"
+                                    :key="optionHorariosDisponivel.value" :value="optionHorariosDisponivel.value">
+                                    {{ optionHorariosDisponivel.text }}
                                 </option>
                             </select>
                         </div>
+                        <div class="col-md-12">
+                            <button class="btn btn-primary btn-lg items-center" type="submit"
+                                title="marque um agendamento">Marcar</button>
+                        </div>
 
                     </div>
-
                 </form>
             </div>
         </div>
@@ -66,18 +58,28 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
 import { ref, computed, onMounted } from 'vue';
 import useMarcacoes from '@/composables/marcacoes';
 import useMedicals from '@/composables/medicos';
 import useHorariosDisponiveis from '@/composables/horariosDisponiveis';
+import useAnimalUser from '@/composables/animalsUser';
 import Swal from 'sweetalert2';
 import ModalAtribuir from '../../modal/AtribuirModal.vue';
 import Modal_e from '../../modal/Modal_e.vue';
 import { format } from 'date-fns';
 
+
 export default {
 
     name: 'Marcacoes',
+    props: {
+        suggestions: {
+            type: Array,
+            required: true,
+        },
+
+    },
     components: {
         ModalAtribuir,
         Modal_e
@@ -105,29 +107,126 @@ export default {
             modalInitialOption: 1,
             hiddenValue: 'hidden_value',
             marcacaoId_: '',
+
         };
     },
     setup() {
+        const router = useRouter();
         const { marcacao, marcacoes, getMarcacoes, updateMarcacoes, deleteMarcacao } = useMarcacoes();
         const { medical, medicals, getMedicals } = useMedicals();
         const { horariosDisponiveis, getHorariosDisponiveis } = useHorariosDisponiveis();
+        const { animalsUsers, getAnimalsUser } = useAnimalUser();
 
         const modalOptions = ref([]);
+        const modalOptionsAnimalsUser = ref([]);
+        const modalOptionsHorariosDisponiveis = ref([]);
+
+        const searchQuery = ref('');
+        const showSuggestions = ref(false);
+
+        const marcacoesNote = () => {
+            // Assumindo que medicals é uma lista de objetos com id e name
+            marcacoes_notes.value = marcacoes.value.map(notes => ({
+                text: `${notes.notes}`,
+            }));
+        };
+
+        const filteredSuggestions = computed(() => {
+            if (searchQuery.value === '') {
+                return [];
+            }
+            return marcacoes.value
+                .filter(item =>
+                    item.notes.toLowerCase().includes(searchQuery.value.toLowerCase())
+                )
+                .map(item => item.notes); // Apenas retorna o texto
+        });
+
+        const filterSuggestions = () => {
+            showSuggestions.value = true;
+        };
+
+        const hideSuggestions = () => {
+            setTimeout(() => {
+                showSuggestions.value = false;
+            }, 100);
+        };
+
+        const selectSuggestion = (suggestion) => {
+            searchQuery.value = suggestion;
+            showSuggestions.value = false;
+        };
+
+        const selectedOptionAnimalUser = ref(null);
+        const selectedOptionHorariosDisponiveis = ref(null);
 
         const setOptions = () => {
             // Assumindo que medicals é uma lista de objetos com id e name
-            modalOptions.value = getHorariosDisponiveis.value.map(horariosDisponivel => ({
+            modalOptions.value = horariosDisponiveis.value.map(horariosDisponivel => ({
                 value: horariosDisponivel.id,
-                text: horariosDisponivel.hora_inicio
+                text: `${horariosDisponivel.data} - ${horariosDisponivel.hora_inicio}`,
+
             }));
+        };
+
+        const setOptionsAnimalsUser = () => {
+            // Assumindo que medicals é uma lista de objetos com id e name
+            modalOptionsAnimalsUser.value = animalsUsers.value.map(animalUser => ({
+                value: animalUser.id,
+                text: `${animalUser.name} - ${animalUser.type_name}`,
+            }));
+            if (modalOptionsAnimalsUser.value.length > 0) {
+                selectedOptionAnimalUser.value = modalOptionsAnimalsUser.value[0].value;
+            }
+        };
+
+        const setOptionsHorariosDisponiveis = () => {
+            // Assumindo que medicals é uma lista de objetos com id e name
+            modalOptionsHorariosDisponiveis.value = horariosDisponiveis.value.map(horariosDisponivel => ({
+                value: horariosDisponivel.id,
+                text: `${horariosDisponivel.data}  ${horariosDisponivel.hora_inicio}`,
+            }));
+            if (modalOptionsHorariosDisponiveis.value.length > 0) {
+                selectedOptionHorariosDisponiveis.value = modalOptionsHorariosDisponiveis.value[0].value;
+            }
+        };
+
+        const form = ref({
+            note: '',
+        });
+
+        const errors = ref({});
+
+        const validateForm = () => {
+            errors.value = {};
+            if (!form.value.note) errors.value.note = 'A note é obrigatória';
+
+            // return Object.keys(errors.value).length === 0;
+        };
+
+        const handleSubmit = async () => {
+            // if (validateForm()) {
+            try {
+                console.log(form.value);
+                const response = await axios.post('/api/submitMarcacao', form.value);
+                console.log('Formulário enviado com sucesso:', response.data);
+                // Limpar o formulário após envio bem-sucedido
+                form.value = { name: '', email: '', message: '' };
+            } catch (error) {
+                console.error('Erro ao enviar o formulário:', error);
+            }
+            // }
         };
 
         onMounted(async () => {
             await getMarcacoes();
             await getMedicals();
             await getHorariosDisponiveis();
+            await getAnimalsUser();
 
             setOptions();
+            setOptionsAnimalsUser();
+            setOptionsHorariosDisponiveis();
         });
 
 
@@ -144,7 +243,23 @@ export default {
             modalOptions,
             // modalInitialOption
 
-            getHorariosDisponiveis
+            getHorariosDisponiveis,
+            modalOptionsHorariosDisponiveis,
+            modalOptionsAnimalsUser,
+            selectedOptionAnimalUser,
+            selectedOptionHorariosDisponiveis,
+            searchQuery,
+            showSuggestions,
+            filteredSuggestions,
+            filterSuggestions,
+            hideSuggestions,
+            selectSuggestion,
+            marcacoesNote,
+            errors,
+            handleSubmit,
+            form,
+            router
+
         };
     },
     methods: {
@@ -169,6 +284,34 @@ export default {
             this.modalInputValue3 = name_animal; // Substitua pelo valor desejado
             this.isModalVisible = true;
             this.marcacaoId_ = marcacaoId;
+        },
+        async submitForm() {
+            try {
+                const formData = {
+                    animaluser_: this.selectedOptionAnimalUser,  // Pegando o valor selecionado
+                    horariosDisponiveis_: this.selectedOptionHorariosDisponiveis, // Pegando o valor selecionado
+                    note: this.searchQuery  // Pegando o valor do textarea
+                };
+                const response = await axios.post('/api/submitMarcacao', formData);
+                
+                this.$router.push({ name: 'welcome.index' });
+
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: 'Marcação inserida com sucesso!',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            } catch (error) {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "error",
+                    title: error,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
         },
         // async confirmarAtribuir(payload) {
         //     console.log('Received from modal:', payload);
@@ -258,6 +401,32 @@ export default {
 <style>
 .tela {
     width: 500px;
+}
+
+.autocomplete {
+    position: relative;
+}
+
+.suggestions-list {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 10;
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
 }
 </style>
 <style src="./marcacao.css"></style>

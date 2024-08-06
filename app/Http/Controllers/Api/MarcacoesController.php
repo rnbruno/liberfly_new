@@ -8,6 +8,7 @@ use App\Models\Marcacoes;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\MarcacoesRequest;
+use App\Models\HorariosDisponiveis;
 
 class MarcacoesController extends Controller
 {
@@ -31,6 +32,23 @@ class MarcacoesController extends Controller
      */
     public function store(Request $request)
     {
+        // Validar os dados do request
+        $validatedData = $request->validate([
+            'horariosDisponiveis_' => 'required|exists:horarios_disponiveis,id',
+            'note' => 'required',
+            'animaluser_' => 'required|exists:animals_user,id',
+            // Adicione outras validações conforme necessário
+        ]);
+
+        Marcacoes::criarMarcacao($validatedData['animaluser_'],$validatedData['note'],$validatedData['horariosDisponiveis_']); 
+        
+        HorariosDisponiveis::atualizar($validatedData['horariosDisponiveis_']);
+
+        // Retornar uma resposta JSON com a marcação criada
+        return response()->json([
+            'success' => true,
+            'message' => 'Marcação criada com sucesso.',
+        ], 201);
 
     }
 

@@ -20,9 +20,7 @@ class MedicalController extends Controller
  
     public function store(MedicalRequest $request)
     {
-        $company = Medical::create($request->validated());
- 
-        return new MedicalResource($company);
+        return MedicalResource::collection(Medical::all());
     }
  
     public function show(Medical $company)

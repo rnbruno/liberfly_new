@@ -2,7 +2,7 @@
   <div v-if="isVisible" class="modal-overlay">
     <div class="modal-content">
       <button @click="closeModal">Close</button>
-      <h2>{{ title }}</h2>
+      <h2></h2>
       <input v-model="inputValue" />
       <slot></slot>
     </div>
@@ -11,8 +11,8 @@
 
 <script>
 export default {
-  name: 'ModalAtribuir',
-  props: ['isVisible', 'title', 'initialInputValue'],
+  name: 'ModalEditar',
+  props: ['active_att', 'title', 'initialInputValue'],
   data() {
     return {
       inputValue: this.initialInputValue

@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\ContaController;
 use App\Http\Controllers\Api\MarcacoesController;
 use App\Http\Controllers\Api\MedicalController;
 use App\Http\Controllers\Api\HorariosDisponiveisController;
+use App\Http\Controllers\Api\AnimalUserController;
 
 
 // Route::post('/login', [AuthController::class, 'auth']);
@@ -69,3 +70,7 @@ Route::apiResource('/marcacoes', MarcacoesController::class);
 Route::apiResource('/horarios_disponiveis', HorariosDisponiveisController::class);
 
 Route::apiResource('/medical', MedicalController::class);
+
+Route::get('/animaluser/{id}', [AnimalUserController::class, 'show'])->name('animaluser.show');
+
+Route::post('/submitMarcacao', [MarcacoesController::class, 'store'])->name('marcacao.store');

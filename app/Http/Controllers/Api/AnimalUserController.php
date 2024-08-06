@@ -3,28 +3,20 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\HorariosDisponiveisResource;
-use App\Models\HorariosDisponiveis;
+use App\Models\AnimalUser;
 use Illuminate\Http\Request;
+use App\Http\Resources\AnimalUserResource;
 
-
-class HorariosDisponiveisController extends Controller
+class AnimalUserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
-        $horarios_disponiveis = HorariosDisponiveis::getHorarios();
-        return HorariosDisponiveisResource::collection($horarios_disponiveis);
+        //
     }
 
-    public function getHorariosDisponiveis()
-    {
-
-       
-    }
     /**
      * Store a newly created resource in storage.
      */
@@ -36,15 +28,16 @@ class HorariosDisponiveisController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(HorariosDisponiveis $horariosDisponiveis)
+    public function show($id)
     {
-        //
+        $animalUser = AnimalUser::getAnimalsForUser($id);
+        return AnimalUserResource::collection($animalUser);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, HorariosDisponiveis $horariosDisponiveis)
+    public function update(Request $request, AnimalUser $animalUser)
     {
         //
     }
@@ -52,7 +45,7 @@ class HorariosDisponiveisController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(HorariosDisponiveis $horariosDisponiveis)
+    public function destroy(AnimalUser $animalUser)
     {
         //
     }

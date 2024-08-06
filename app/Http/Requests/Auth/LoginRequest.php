@@ -55,9 +55,10 @@ class LoginRequest extends FormRequest
             ['password', '=', $credentials['password']]
         ])->first();
 
+        $user->verificar = $user['id_int'];
+        
         $typ_e = Type_user::find($user['type_user']);
-
-        // dd($typ_e);
+        // dd($user);
         $user->nameType = $typ_e ?  $typ_e["name"] : 'Tipo desconhecido';
 
         if (!$user) {

@@ -41,9 +41,11 @@ export default function useAuth() {
                 // Atualiza a variável reativa com os dados do usuário
                 user.value = {
                     name: logusergIn_.name || "",
+                    id: logusergIn_.id || "",
                     email: logusergIn_.email || "",
                     nameType: logusergIn_.nameType || "",
                     type_user: logusergIn_.type_user || "",
+                    id_int: logusergIn_.id_int || "",
                 };
                 loggedIn.value = true;
             }
@@ -73,6 +75,7 @@ export default function useAuth() {
         user.name = response.data.name;
         user.email = response.data.email;
         user.nameType = response.data.nameType;
+        user.id_int = response.data.id_int;
         user.type_user = response.data.type_user;
         const loginTime = new Date().getTime();
         const updatedUser = {
@@ -80,7 +83,8 @@ export default function useAuth() {
             email: user.email,
             nameType: user.nameType,
             type_user: user.type_user,
-            loginTime: loginTime
+            loginTime: loginTime,
+            id_int: user.id_int,
         };
 
         // Armazena o usuário no localStorage

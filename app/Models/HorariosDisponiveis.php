@@ -31,5 +31,16 @@ class HorariosDisponiveis extends Model
      return $horariosdisponiveis;
     }
 
+    public static function atualizar($id){
+
+        $updated = DB::table('horarios_disponiveis')
+        ->where('id', $id)
+        ->update([
+            'disponivel' => 0,
+        ]);
+
+    return $updated;
+    }
+
     
 }

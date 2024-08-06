@@ -15,7 +15,7 @@ class PrescriptionsTableSeeder extends Seeder
     {
         DB::table('prescriptions')->insert([
             [
-                'marcacoes_id' => 1, // Substitua por um ID válido de 'marcacoes'
+                'marcacoes_id' => 126, // Substitua por um ID válido de 'marcacoes'
                 'medication_id' => 1, // Substitua por um ID válido de 'medications'
                 'dosage' => '500mg',
                 'frequency' => 'Twice a day',
@@ -23,7 +23,7 @@ class PrescriptionsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'marcacoes_id' => 2, // Substitua por um ID válido de 'marcacoes'
+                'marcacoes_id' => 127, // Substitua por um ID válido de 'marcacoes'
                 'medication_id' => 2, // Substitua por um ID válido de 'medications'
                 'dosage' => '1 tablet',
                 'frequency' => 'Once a day',
@@ -31,7 +31,7 @@ class PrescriptionsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'marcacoes_id' => 3, // Substitua por um ID válido de 'marcacoes'
+                'marcacoes_id' => 128, // Substitua por um ID válido de 'marcacoes'
                 'medication_id' => 3, // Substitua por um ID válido de 'medications'
                 'dosage' => '200mg',
                 'frequency' => 'Three times a day',
@@ -39,7 +39,7 @@ class PrescriptionsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'marcacoes_id' => 4, // Substitua por um ID válido de 'marcacoes'
+                'marcacoes_id' => 129, // Substitua por um ID válido de 'marcacoes'
                 'medication_id' => 4, // Substitua por um ID válido de 'medications'
                 'dosage' => '50mg',
                 'frequency' => 'Once a week',
@@ -47,7 +47,7 @@ class PrescriptionsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'marcacoes_id' => 5, // Substitua por um ID válido de 'marcacoes'
+                'marcacoes_id' => 130, // Substitua por um ID válido de 'marcacoes'
                 'medication_id' => 5, // Substitua por um ID válido de 'medications'
                 'dosage' => '10ml',
                 'frequency' => 'Twice a day',

@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('marcacoes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('animals_user_id');
-            $table->unsignedBigInteger('medical_id');
-            $table->dateTime('marcacao_date');
-            $table->string('reason');
+            $table->integer('medical_id')->nullable();
+            $table->string('reason')->nullable();
+            $table->integer('horario_disponivel_id')->nullable();
+            $table->boolean('excluido');
             $table->text('notes')->nullable();
             $table->timestamps();
 

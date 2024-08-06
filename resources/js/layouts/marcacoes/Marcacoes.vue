@@ -4,16 +4,9 @@
         <!-- Page Content -->
         <main>
             <div class="bg-white overflow-hidden shadow-sm min-w-full align-middle">
-                <div class="row ">
-                    <div class="col-4 offset-9 ">
-                        <button @click="CreateMarcacao()" class="btn btn-secondary m-4"
-                            title="Adicione Marcações">Criar Marcação</button>
-                    </div>
-                </div>
 
-
-                <table style="width:755px" class="table table-striped min-w-full divide-y divide-gray-200 table-striped"
-                    >
+                <table style="width:755px"
+                    class="table table-striped min-w-full divide-y divide-gray-200 table-striped">
                     <thead class="thead-light">
                         <tr class="thead-light">
                             <th>Marcação</th>
@@ -29,11 +22,12 @@
                         <tr v-for="marcacao in marcacoes" :key="marcacao.id">
                             <td class="text-center">{{ marcacao.id }}</td>
                             <td :class="{ 'item-excluido': marcacao.excluido == 1 }">
-                                <div v-if="marcacao.medical_id == 0 && marcacao.excluido == 0"><button class="btn btn-success btn-sm items-center"
+                                <div v-if="marcacao.medical_id == 0 && user.type_user !== 1"><button
+                                        class="btn btn-success btn-sm items-center"
                                         @click="ModalAtribuir(marcacao.id, marcacao.marcacao_date, marcacao.type_animal_name)"
                                         title="Atribua a um médico">Atribuir</button>
-                                 
-                                    <ModalAtribuir  :isVisible="isModalVisible" @close="closeModal" :title="modalTitle"
+
+                                    <ModalAtribuir :isVisible="isModalVisible" @close="closeModal" :title="modalTitle"
                                         :initialInputValue="modalInputValue" :initialInputValue2="modalInputValue2"
                                         :initialInputValue3="modalInputValue3" :options="modalOptions"
                                         :initialOption="modalInitialOption" @confirm="confirmarAtribuir"
@@ -46,25 +40,30 @@
                                         </template>
                                     </ModalAtribuir>
                                 </div>
-                               
+
                                 <div v-else>{{ marcacao.medical_name }}</div>
 
                             </td>
-                            <td :class="{ 'item-excluido': marcacao.excluido === 1 }" >{{ marcacao.type_animal_name }}</td>
-                            <td>{{ formatDate(marcacao.marcacao_date) }}</td>
+                            <td :class="{ 'item-excluido': marcacao.excluido === 1 }">{{ marcacao.type_animal_name }}
+                            </td>
+                            <td>{{ marcacao.marcacao_date }}</td>
                             <td>{{ marcacao.reason }}</td>
-                            <td>{{ marcacao.notes  }}</td>
+                            <td>{{ marcacao.notes }}</td>
                             <td class="items-center justify-end ">
-                                <div v-if="marcacao.excluido == 1" class=""
-                                    title="Excluído">Excluído</div>
+                                <div v-if="marcacao.excluido == 1" class="" title="Excluído">Excluído</div>
                                 <div v-else class="items-center justify-end ">
 
-                                    <button @click.prevent="deleteMarcacao(marcacao.id)" class="btn btn-danger ml-2"
-                                        title="Desativar marcação"><i class="fa fa-trash"
+                                    <button v-if="user.type_user !== 1" @click.prevent="deleteMarcacao(marcacao.id)"
+                                        class="btn btn-danger ml-2" title="Desativar marcação"><i class="fa fa-trash"
                                             aria-hidden="true"></i></button>
-                                    <button @click="desactiveconta()" class="btn btn-warning ml-2"
+                                    <button @click="edit(marcacao.id)" class="btn btn-warning ml-2"
                                         title="Editar marcação"><i class="fa fa-trash"
                                             aria-hidden="true"></i>Edit</button>
+                                    <Modal_e  @close="isModalVisible"
+                                        :active_att="showModalAtt" :initialInputValue="modalInputValue">
+                                        <h2>Modal Content</h2>
+                                        <p>This is the content of the modal.</p>
+                                    </Modal_e>
 
                                 </div>
 
@@ -76,12 +75,7 @@
 
             </div>
 
-            <button @click="openModal()">Open Modal</button>
-            <Modal_e v-if="isModalVisible" @close="isModalVisible = false" :active_att="showModalAtt"
-                @update:active_att="showModalAtt = $event">
-                <h2>Modal Content</h2>
-                <p>This is the content of the modal.</p>
-            </Modal_e>
+
         </main>
     </div>
 </template>
@@ -94,6 +88,7 @@ import Swal from 'sweetalert2';
 import ModalAtribuir from '../../modal/AtribuirModal.vue';
 import Modal_e from '../../modal/Modal_e.vue';
 import { format } from 'date-fns';
+import useAuth from "../../composables/auth";
 
 export default {
 
@@ -130,6 +125,7 @@ export default {
     setup() {
         const { marcacao, marcacoes, getMarcacoes, updateMarcacoes, deleteMarcacao } = useMarcacoes();
         const { medical, medicals, getMedicals } = useMedicals();
+        const { user, processing, logout } = useAuth()
 
         const modalOptions = ref([]);
 
@@ -180,7 +176,6 @@ export default {
         const activeconta = async (id) => {
             try {
                 const result = await updateContas(id, 0);
-                console.log(result)
                 await getContas();
                 Swal.fire({
                     title: 'Ativada',
@@ -233,6 +228,7 @@ export default {
             confirmarAtribuir,
             desactiveconta,
             deleteMarcacao,
+            user, processing, logout
         };
     },
     methods: {
@@ -258,47 +254,55 @@ export default {
             this.isModalVisible = true;
             this.marcacaoId_ = marcacaoId;
         },
-        // async confirmarAtribuir(payload) {
-        //     console.log('Received from modal:', payload);
-        //     console.log('Confirmed with input:', this.modalInput, this.modalName);
-        //     const { selectedOption } = payload;
+        edit() {
+            this.modalInputValue = 'Initial value'; // Substitua pelo valor desejado
+            // this.modalInputValue2 = date; // Substitua pelo valor desejado
+            this.showModalAtt = true; // Substitua pelo valor desejado
+            this.isModalVisible = true;
+        },
+        async editw(marcacao_id) {
+            // this.modalTitle = `Marcação ID: ${marcacaoId}`;
+            this.modalInputValue = 'Initial value'; // Substitua pelo valor desejado
+            // this.modalInputValue2 = date; // Substitua pelo valor desejado
+            this.showModalAtt = true; // Substitua pelo valor desejado
+            this.isModalVisible = true;
+            // this.marcacaoId_ = marcacaoId;               
+            // const { selectedOption } = payload;
+            // Lógica para lidar com a confirmação
+            try {
+                await this.update(selectedOption, 1);
+                // const response = await axios.patch(`/api/contas/update-name/${this.modalInput}`, {
+                //     conta: this.modalName, conta_id: this.modalInput
+                // });
+                // console.log('Item updated successfully:', response.data);
+                Swal.fire({
+                    title: 'Medical atribuido',
+                    text: 'Marcação atribuida com sucesso.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+                await this.atualizarMark();
+            } catch (error) {
+                if (error.response && error.response.data && error.response.data.message) {
+                    // Exibir SweetAlert de erro com a mensagem retornada pela API
+                    Swal.fire({
+                        title: 'Error',
+                        text: error.response.data.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    // Exibir mensagem de erro genérica
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Erro desconhecido ao atribuir medical.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            }
 
-        //     console.log('Selected Option:', selectedOption);
-        //     // Lógica para lidar com a confirmação
-        //     try {
-        //         await this.update(selectedOption, 1);
-        //         // const response = await axios.patch(`/api/contas/update-name/${this.modalInput}`, {
-        //         //     conta: this.modalName, conta_id: this.modalInput
-        //         // });
-        //         // console.log('Item updated successfully:', response.data);
-        //         Swal.fire({
-        //             title: 'Medical atribuido',
-        //             text: 'Marcação atribuida com sucesso.',
-        //             icon: 'success',
-        //             confirmButtonText: 'OK'
-        //         });
-        //         await this.atualizarMark();
-        //     } catch (error) {
-        //         if (error.response && error.response.data && error.response.data.message) {
-        //             // Exibir SweetAlert de erro com a mensagem retornada pela API
-        //             Swal.fire({
-        //                 title: 'Error',
-        //                 text: error.response.data.message,
-        //                 icon: 'error',
-        //                 confirmButtonText: 'OK'
-        //             });
-        //         } else {
-        //             // Exibir mensagem de erro genérica
-        //             Swal.fire({
-        //                 title: 'Error',
-        //                 text: 'Erro desconhecido ao atribuir medical.',
-        //                 icon: 'error',
-        //                 confirmButtonText: 'OK'
-        //             });
-        //         }
-        //     }
-
-        // },
+        },
         async handleConfirmAcount() {
             console.log('Confirmed with input:', this.modalInput, this.modalName);
             // Lógica para lidar com a confirmação

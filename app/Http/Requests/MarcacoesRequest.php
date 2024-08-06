@@ -21,6 +21,7 @@ class MarcacoesRequest extends FormRequest
             'animals_use_id' => ['required', 'string'],
             'medical_id' => ['nullable', 'string'],
             'marcacao_id' => ['nullable', 'string'],
+            'marcacao_date' => ['nullable', 'string'],
             'reason' => ['nullable', 'string'],
             'notes' => ['nullable', 'string'],
             'type_animal_name' => ['nullable', 'string'],

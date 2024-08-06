@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 
 export default function useMarcacoes() {
     const marcacoes = ref({})
+    const notes = ref({})
     const marcacao = ref({
         id: '',
         animals_use: '',
@@ -27,60 +28,6 @@ export default function useMarcacoes() {
         }
     }
 
-    const storeMarcacoest = async (login) => {
-        if (isLoading.value) return;
-
-        isLoading.value = true
-        validationErrors.value = {}
-
-        let serializedPost = new FormData()
-        for (let item in post) {
-            if (post.hasOwnProperty(item)) {
-                serializedPost.append(item, post[item])
-            }
-        }
-
-        axios.post('/api/posts', serializedPost)
-            .then(response => {
-                router.push({name: 'posts.index'})
-                swal({
-                    icon: 'success',
-                    title: 'Post saved successfully'
-                })
-            })
-            .catch(error => {
-                if (error.response?.data) {
-                    validationErrors.value = error.response.data.errors
-                }
-            })
-            .finally(() => isLoading.value = false)
-    }
-
-    // const updateMarcacoes = async (id, status) => {
-    //     error.value = ''
-    //     console.log(id, status);
-        // hash = CryptoJS.MD5(id).toString(CryptoJS.enc.Hex)
-        // try {
-        //     await axios.patch(`/api/marcacoes/${id}`, { conta_id: id, inativo: status })
-        //     // await router.push({ name: 'companies.index' })
-        // } catch (e) {
-        //     if (error.response && error.response.data && error.response.data.message) {
-        //         Swal.fire({
-        //             title: 'Error',
-        //             text: error.response.data.message,
-        //             icon: 'error',
-        //             confirmButtonText: 'OK'
-        //         });
-        //     } else {
-        //         Swal.fire({
-        //             title: 'Error',
-        //             text: 'Unknown error occurred while updating the item.',
-        //             icon: 'error',
-        //             confirmButtonText: 'OK'
-        //         });
-        //     }
-        // }
-    // },
     const updateMarcacoes = async (id, status) => {
         if (isLoading.value) return;
 
@@ -100,7 +47,7 @@ export default function useMarcacoes() {
             })
             .finally(() => isLoading.value = false)
     }
-     const deleteMarcacao = async (id) => {
+    const deleteMarcacao = async (id) => {
         console.log(id);
         swal({
             title: 'Are you sure?',
@@ -115,9 +62,9 @@ export default function useMarcacoes() {
         })
             .then(result => {
                 if (result.isConfirmed) {
-                    axios.put(`/api/marcacoes/excluido/${id}` , { id: id,})
+                    axios.put(`/api/marcacoes/excluido/${id}`, { id: id, })
                         .then(response => {
-                           
+
                             swal({
                                 icon: 'success',
                                 title: 'Marcação deleted successfully'
@@ -140,6 +87,6 @@ export default function useMarcacoes() {
         getMarcacoes,
         updateMarcacoes,
         deleteMarcacao,
-       
+
     }
 }
