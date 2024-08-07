@@ -102,9 +102,9 @@ A tabela marcações é mais complexas. No js marcacoes temos.
         try {
             let response = await axios.get("/api/marcacoes/recepcionista");
 - Api para atribuir um médico a tabela marcações oportunizando um update
+
      const updateMarcacoes = async (id, status) => {
         if (isLoading.value) return;
-
         isLoading.value = true;
         validationErrors.value = {};
         axios
@@ -112,7 +112,7 @@ A tabela marcações é mais complexas. No js marcacoes temos.
 
 - Oportunizar a exclusao de um item com Sweet alert
 
- const deleteMarcacao = async (id) => {
+const deleteMarcacao = async (id) => {
         console.log(id);
         swal({
             title: "Are you sure?",
