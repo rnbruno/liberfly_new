@@ -60,11 +60,11 @@ Após pegar os dados do user autenticado passamos o id para buscar o tipo desse 
 Como respostas tempos
 
 '''return response()->json([
-            'status' => 'success',
-                'user' => $user,
-                'authorization' => [
-                    'token' => $token,
-                    'type' => 'bearer',
+            "status" => "success",
+                "user" => $user,
+                "authorization" => [
+                    "token" => $token,
+                    "type" => "bearer",
                 ]
             ]);'''
 
