@@ -15,20 +15,12 @@ use App\Http\Controllers\Api\HorariosDisponiveisController;
 use App\Http\Controllers\Api\AnimalUserController;
 
 
-// Route::post('/login', [AuthController::class, 'auth']);
-// Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-// Route::get('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
-
-// Route::get('posts',[\App\Http\Controllers\Api\PostController::class, 'index']);
-
-// Route::middleware(['auth:sanctum'])->group(function () {
-//     Route::get('/replies/{support_id}', [ReplySupportApiController::class, 'getRepliesFromSupport']);
-//     Route::post('/replies/{support_id}', [ReplySupportApiController::class, 'createNewReply']);
-//     Route::delete('/replies/{id}', [ReplySupportApiController::class, 'destroy']);
-
-//     Route::apiResource('/supports', SupportController::class);
-// });
-// Route::apiResource('/supports', SupportController::class)->middleware('auth');
+Route::controller(AuthController::class)->group(function () {
+    Route::post('login', 'login');
+    Route::post('register', 'register');
+    Route::post('logout', 'logout');
+    Route::post('refresh', 'refresh');
+});
 
 // Route::apiResource('companies', CompanyController::class);
 Route::apiResource('companies', CompanyController::class)->names([

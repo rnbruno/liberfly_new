@@ -59,7 +59,7 @@ export default function useAuth() {
         validationErrors.value = {};
 
         axios
-            .post("/login", loginForm)
+            .post("api/login", loginForm)
             .then(async (response) => {
                 loginUser(response);
             })
@@ -72,11 +72,12 @@ export default function useAuth() {
     };
 
     const loginUser = async (response) => {
-        user.name = response.data.name;
-        user.email = response.data.email;
-        user.nameType = response.data.nameType;
+        user.name = response.data.user.name;
+        user.email = response.data.user.email;
+        user.nameType = response.data.user.nameType;
         user.id_int = response.data.id_int;
-        user.type_user = response.data.type_user;
+        user.type_user = response.data.user.type_user;
+
         const loginTime = new Date().getTime();
         const updatedUser = {
             name: user.name,
@@ -86,10 +87,8 @@ export default function useAuth() {
             loginTime: loginTime,
             id_int: user.id_int,
         };
-
         // Armazena o usuário no localStorage
         localStorage.setItem("user", JSON.stringify(updatedUser));
-
         localStorage.setItem("loggedIn", JSON.stringify(true));
         await getAbilities();
         await router.push({ name: "welcome.index" });
@@ -108,7 +107,7 @@ export default function useAuth() {
         localStorage.removeItem("user");
         localStorage.removeItem("loggedIn");
         try {
-            const response = await axios.post("/logout");
+            const response = await axios.get("/logout");
             console.log("Logout successful:", response.data);
             localStorage.removeItem("user");
             localStorage.removeItem("loggedIn");
