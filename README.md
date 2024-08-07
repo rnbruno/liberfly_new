@@ -50,24 +50,27 @@ php artisan jwt:secret
 #7 Alterando a autenticação:
     Como o bloque de dados agora mudou e o retorno é em Json tivemos que alterar a função de busca. Além os dados sepecíficos do user_id necessitamos de dados também na tabela type_user que guarda informações sobre o tipo deste usuário;
 
-'''/var/www/html/laravel_v1/app/Http/Controllers/Api/Auth/AuthController.php
+**
+/var/www/html/laravel_v1/app/Http/Controllers/Api/Auth/AuthController.php
   $user = auth()->user();
         $user->verificar = $user['id_int'];
-        $typ_e = Type_user::find($user['type_user']);'''
+        $typ_e = Type_user::find($user['type_user']);
+        **
 
 Após pegar os dados do user autenticado passamos o id para buscar o tipo desse usuário.
 
 Como respostas tempos
 
-'''return response()->json([
+**
+return response()->json([
             "status" => "success",
                 "user" => $user,
                 "authorization" => [
                     "token" => $token,
                     "type" => "bearer",
                 ]
-            ]);'''
-
+            ]);
+**
 
 
 - 📫 How to reach me **brunosmatias@gmail.com**
