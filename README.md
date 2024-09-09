@@ -1,5 +1,5 @@
 
-# Laravel10 e Vue10 - Sistema Quadro Societário de Empresas
+# Laravel10 e Vue3 - Sistema Quadro Societário de Empresas
 
 <h1 align="center">Hi 👋, I'm Bruno Matias</h1>
 <h3 align="center">I'm work Full Stack developer with more 4 years of experience, specializing in PHP, Laravel10+, Vue3, Inertia, SQL Server, MySQL, JavaScript, and Bootstrap, you possess a wide range of skills and expertise in software development.</h3>
