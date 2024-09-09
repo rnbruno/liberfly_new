@@ -20,9 +20,14 @@ services:
         image: nginx:alpine
         restart: unless-stopped
         ports:
-            - "8989:80"
+            - "80:80"
+            - "8988:8181"
+            - "8981:8182"
+            - "8281:8180"
         volumes:
             - ./:/var/www
+            - /var/www/html/NTF:/var/www/NTF
+            - /var/www/html/NTF_1:/var/www/NTF_1
             - ./docker/nginx/:/etc/nginx/conf.d/
         networks:
             - laravel
@@ -44,6 +49,16 @@ services:
         networks:
             - laravel
 
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        environment:
+            PMA_HOST: db
+            PMA_USER: ${DB_USERNAME:-curupira}
+            PMA_PASSWORD: ${DB_PASSWORD:-pr0t3c@0}
+        volumes:
+            - ./docker/phpmyadmin:/etc/phpmyadmin # Volume mapeado da sua máquina para o container
+        networks:
+            - laravel
 
     # queue
     queue:

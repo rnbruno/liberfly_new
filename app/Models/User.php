@@ -14,10 +14,14 @@ class User extends Authenticatable implements JWTSubject
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
+        'id',
         'name',
         'email',
-        'password',
         'type_user', // Adicione o campo tipo_de_usuario
+        'api_key',
+        'phone',
+        'password',
+        'id_int',
     ];
 
     protected $hidden = [
@@ -48,5 +52,11 @@ class User extends Authenticatable implements JWTSubject
     public function userType()
     {
         return $this->belongsTo(Type_user::class, 'type_user');
+    }
+
+    public static function socios(){
+
+        $empresasLista = User::where('type_user', '!=', 5)->get();
+        return $empresasLista;
     }
 }

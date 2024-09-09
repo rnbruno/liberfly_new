@@ -188,4 +188,6 @@ npm install sweetalert2
 php artisan make:controller --resource NomeDoController --model=NomeDoModel
 
 npm install vue-router
+console.log("aqui");
+console.log(import.meta.env);
 

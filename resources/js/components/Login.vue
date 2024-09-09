@@ -7,7 +7,9 @@
                     <div class="flex">
                         <!-- Logo -->
                         <div class="shrink-0 flex items-center">
-
+                            <a href="/">
+                                <img :src="logoUrl" style="width:65px" alt="Logo">
+                            </a>
                         </div>
                     </div>
                     <Navbar />
@@ -26,7 +28,7 @@
                                 <div class="shrink-0 flex items-center">
                                     <img class="mb-4" :src="logoUrl" style="width:65px" alt="Logo" width="72"
                                         height="57">
-                                    <h1 class="h3 ml-3 fw-normal">Login Patusco</h1>
+                                    <h1 class="h3 ml-5 login-text">Login </h1>
                                 </div>
 
                                 <div class="form-floating">
@@ -41,12 +43,12 @@
                                     </div>
                                 </div>
                                 <div class="form-floating">
-                                    <input type="password" v-model="loginForm.password" class="form-control"
-                                        id="password" placeholder="Password" required>
+                                    <input type="password" v-model="loginForm.api_key" class="form-control" id="api_key"
+                                        placeholder="Password" required autocomplete="current-password">
                                     <label for="password">Password</label>
                                     <!-- Validation Errors -->
                                     <div class="text-red-600 mt-1 text-wrap">
-                                        <div  v-for="message in validationErrors?.password">
+                                        <div v-for="message in validationErrors?.password">
                                             {{ message }}
                                         </div>
                                     </div>
@@ -54,13 +56,13 @@
 
                                 <div class="checkbox mb-3">
                                     <label>
-                                        <input type="checkbox" v-model="loginForm.remember" value="remember-me"
-                                            id="remember"> Remember me
+                                        <input type="checkbox" v-model="loginForm.remember" class="form-check-input"
+                                            value="remember-me" id="remember"> Remember me
                                     </label>
                                 </div>
                                 <div class="flex items-center justify-end mt-4">
                                     <button
-                                        class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150 ml-4"
+                                        class="inline-flex items-center px-4 py-2 item_button border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150 ml-4"
                                         :class="{ 'opacity-25': processing }" :disabled="processing">
                                         Log in
                                     </button>
@@ -84,14 +86,17 @@ export default {
     name: 'Login',
     data() {
         return {
-            logoUrl: '/img/logo.jpg', // Caminho relativo a partir da pasta public
+            logoUrl: '/img/quadro_logo_societario.png', // Caminho relativo a partir da pasta public
             showDropdown: false,
 
         }
     },
+    methods: {
+    
+    },
     setup() {
         const { loginForm, validationErrors, processing, submitLogin } = useAuth()
-
+  
         return { loginForm, validationErrors, processing, submitLogin }
     },
     components: {
@@ -176,7 +181,23 @@ export default {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
-.font-6{
+
+.font-6 {
     font-size: 12px;
+}
+
+.login-text {
+    color: #607D94;
+    /* Prata Suave */
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.item_button {
+    background-color: #3E5C8C;
+    /* Azul Cobalto */
+    padding: 15px;
+    text-align: center;
 }
 </style>

@@ -14,6 +14,8 @@ use App\Http\Controllers\Api\MedicalController;
 use App\Http\Controllers\Api\HorariosDisponiveisController;
 use App\Http\Controllers\Api\AnimalUserController;
 
+use Illuminate\Support\Facades\Mail;
+
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
@@ -21,6 +23,21 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
 });
+
+/**
+ * API type_user.
+ */
+//Sócios e empreas
+Route::get('socios_empresa/', [App\Http\Controllers\Api\EmpresaController::class, 'getEmpresaSocio'])->name('getEmpresaSocio');
+Route::get('empresasLista/', [App\Http\Controllers\Api\EmpresaController::class, 'empresasLista'])->name('empresasLista');
+Route::get('socios/', [App\Http\Controllers\Api\EmpresaController::class, 'getSocios'])->name('getSocios');
+Route::put('socio/update/{id}', [App\Http\Controllers\Api\SocioEmpresaController::class, 'inserirSocio'])->name('inserirSocio');
+
+
+Route::apiResource('typeUser', App\Http\Controllers\Api\TypeUserController::class);
+
+Route::get('/send-email', [App\Http\Controllers\Api\EmailController::class, 'sendEmail']);
+Route::get('confirmation-email/', [App\Http\Controllers\Api\EmailController::class, 'confirmationEmail']);
 
 // Route::apiResource('companies', CompanyController::class);
 Route::apiResource('companies', CompanyController::class)->names([

@@ -1,0 +1,1 @@
+import{_ as t,c as s,b as e,z as a,o as c}from"./app-BU69Np-9.js";const n={name:"Welcome"};function r(l,o,d,i,m,p){return c(),s("div",null,o[0]||(o[0]=[e("div",{class:"py-3 my-4 bg-white"},[e("div",null,[a("Bem vindo ao Sistema O Patusco, Inc"),e("p")])],-1)]))}const _=t(n,[["render",r]]);export{_ as default};

@@ -49,7 +49,7 @@ class LoginRequest extends FormRequest
     public function authenticate()
     {
         $credentials = $this->only('email', 'password');
-
+        
         $user = User::where([
             ['email', '=', $credentials['email']],
             ['password', '=', $credentials['password']]

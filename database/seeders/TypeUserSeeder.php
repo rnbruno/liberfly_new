@@ -18,6 +18,7 @@ class TypeUserSeeder extends Seeder
             ['name' => 'Rececionista', 'email' => 'o_patusco_rececionista@example.com', 'phone' => '54-5412-02', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'User Basic', 'email' => '', 'phone' => '', 'created_at' => now(), 'updated_at' => now()],
             ['name' => 'Admin', 'email' => 'o_patusco_admin@example.com', 'phone' => '54-5412-77', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Empresas', 'email' => 'empresas@example.com', 'phone' => '54-5412-772', 'created_at' => now(), 'updated_at' => now()],
             ]);
     }
 }

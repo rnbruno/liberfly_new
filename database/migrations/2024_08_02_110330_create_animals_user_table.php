@@ -20,8 +20,7 @@ return new class extends Migration
             $table->decimal('weight', 5, 2)->nullable();
             $table->integer('id_int');
             $table->timestamps();
-            $table->foreign('type_animals_id')->references('id')->on('type_animals')->onDelete('cascade');
-
+            
         });
     }
 

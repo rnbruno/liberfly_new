@@ -1,6 +1,5 @@
 const mix = require('laravel-mix');
 
-console.log("aqui")
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management

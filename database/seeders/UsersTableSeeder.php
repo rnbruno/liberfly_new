@@ -2,154 +2,37 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Faker\Factory as Faker;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 class UsersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     *
+     * @return void
      */
-    public function run(): void
+    public function run()
     {
-        $users = [
-            [
-                'id' => Str::uuid(),
-                'name' => 'John Doe',
-                'email' => 'john@example.com',
-                'email_verified_at' => now(),
-                'phone' => '123-456-7890',
-                'type_user' => 1,
-                'password' => bcrypt('password'), // Use bcrypt to hash the password
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'id' => Str::uuid(),
-                'name' => 'Jane Smith',
-                'email' => 'jane@example.com',
-                'email_verified_at' => now(),
-                'phone' => '987-654-3210',
-                'type_user' => 2,
-                'password' => bcrypt('password'),
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ], [
-                'id' => Str::uuid(),
-                'name' => 'Alice Johnson',
-                'email' => 'alice@example.com',
-                'email_verified_at' => now(),
-                'phone' => '555-666-7777',
-                'type_user' => 1,
-                'password' => bcrypt('password'),
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'id' => Str::uuid(),
-                'name' => 'Bob Brown',
-                'email' => 'bob@example.com',
-                'email_verified_at' => now(),
-                'phone' => '444-555-6666',
-                'type_user' => 3,
-                'password' => bcrypt('password'),
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'id' => Str::uuid(),
-                'name' => 'Carol White',
-                'email' => 'carol@example.com',
-                'email_verified_at' => now(),
-                'phone' => '333-444-5555',
-                'type_user' => 1,
-                'password' => bcrypt('password'),
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'id' => Str::uuid(),
-                'name' => 'David Green',
-                'email' => 'david@example.com',
-                'email_verified_at' => now(),
-                'phone' => '222-333-4444',
-                'type_user' => 2,
-                'password' => bcrypt('password'),
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'id' => Str::uuid(),
-                'name' => 'Emma Davis',
-                'email' => 'emma@example.com',
-                'email_verified_at' => now(),
-                'phone' => '111-222-3333',
-                'type_user' => 3,
-                'password' => bcrypt('password'),
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'id' => Str::uuid(),
-                'name' => 'Frank Miller',
-                'email' => 'frank@example.com',
-                'email_verified_at' => now(),
-                'phone' => '999-888-7777',
-                'type_user' => 2,
-                'password' => bcrypt('password'),
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'id' => Str::uuid(),
-                'name' => 'Grace Wilson',
-                'email' => 'grace@example.com',
-                'email_verified_at' => now(),
-                'phone' => '888-777-6666',
-                'type_user' => 1,
-                'password' => bcrypt('password'),
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'id' => Str::uuid(),
-                'name' => 'Henry Moore',
-                'email' => 'henry@example.com',
-                'email_verified_at' => now(),
-                'phone' => '777-666-5555',
-                'type_user' => 2,
-                'password' => bcrypt('password'),
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'id' => Str::uuid(),
-                'name' => 'Irene Taylor',
-                'email' => 'irene@example.com',
-                'email_verified_at' => now(),
-                'phone' => '666-555-4444',
-                'type_user' => 1,
-                'password' => bcrypt('password'),
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        
-            // Adicione mais usuários conforme necessário
-        ];
+        $faker = Faker::create();
 
-        DB::table('users')->insert($users);
+        // Criar 5 usuários com dados variados
+        foreach (range(1, 10) as $index) {
+            User::create([
+                'id' => Str::uuid()->toString(),
+                'name' => $faker->name,
+                'api_key' => Str::random(60),
+                'type_user' => mt_rand(1, 5),
+                'id_int' => $index,
+                'phone' => $faker->phoneNumber,
+                'email' => $faker->unique()->safeEmail,
+                'email_verified_at' => $faker->boolean ? $faker->dateTimeThisYear : null,
+                'password' => Hash::make('password'), // senha padrão para todos os usuários
+                'remember_token' => $faker->boolean ? $faker->uuid : null,
+            ]);
+        }
     }
 }

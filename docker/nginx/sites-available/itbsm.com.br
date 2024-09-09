@@ -1,0 +1,52 @@
+server {
+    listen 80;
+    index index.php index index.html ;
+    root /var/www/public;
+
+    client_max_body_size 51g;
+    client_body_buffer_size 512k;
+    client_body_in_file_only clean;
+
+    server_name itbsm.com.br/society;
+    #server_name localhost;
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass app:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+    }
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
+        try_files $uri =404;
+        expires max;
+        log_not_found off;
+    }
+    # Cache de arquivos estáticos, como os arquivos Vue compilados
+    location ~* \.(?:manifest|app)\.js$ {
+        add_header Cache-Control "public, max-age=31536000, immutable";
+    }
+
+    location /build {
+        alias /var/www/public/build;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+        gzip_static on;
+    }
+     # Vue/Inertia.js
+
+    location /app {
+        proxy_pass http://167.71.177.58:5173;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    error_log  /var/log/nginx/error.log;
+    access_log /var/log/nginx/access.log;
+}

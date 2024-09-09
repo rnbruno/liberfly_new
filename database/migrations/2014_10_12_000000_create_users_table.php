@@ -18,9 +18,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('api_key');
             $table->string('phone');
             $table->string('password');
-            $table->integer('id_int')->nullable();
+            $table->integer('id_int');
+            $table->string('cpf')->nullable();
+            $table->string('cnpj')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

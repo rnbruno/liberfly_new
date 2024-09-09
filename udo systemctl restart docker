@@ -1,0 +1,22 @@
+[0;1;32m●[0m docker.service - Docker Application Container Engine
+     Loaded: loaded (]8;;file://ubuntu-s-1vcpu-1gb-amd-nyc3-01/usr/lib/systemd/system/docker.service/usr/lib/systemd/system/docker.service]8;;; [0;1;32menabled[0m; preset: [0;1;32menabled[0m)
+     Active: [0;1;32mactive (running)[0m since Mon 2024-08-19 22:53:48 UTC; 31min ago
+TriggeredBy: [0;1;32m●[0m docker.socket
+       Docs: ]8;;https://docs.docker.comhttps://docs.docker.com]8;;
+   Main PID: 1023 (dockerd)
+      Tasks: 8
+     Memory: 33.1M (peak: 94.8M)
+        CPU: 621ms
+     CGroup: /system.slice/docker.service
+             └─[0;38;5;245m1023 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock[0m
+
+Aug 19 22:53:47 ubuntu-s-1vcpu-1gb-amd-nyc3-01 dockerd[1023]: time="2024-08-19T22:53:47.556504621Z" level=info msg="Starting up"
+Aug 19 22:53:47 ubuntu-s-1vcpu-1gb-amd-nyc3-01 dockerd[1023]: time="2024-08-19T22:53:47.567051156Z" level=info msg="detected 127.0.0.53 nameserver, assuming systemd-resolved, so using resolv.conf: /run/systemd/resolve/resolv.conf"
+Aug 19 22:53:47 ubuntu-s-1vcpu-1gb-amd-nyc3-01 dockerd[1023]: time="2024-08-19T22:53:47.685073897Z" level=info msg="[graphdriver] using prior storage driver: overlay2"
+Aug 19 22:53:47 ubuntu-s-1vcpu-1gb-amd-nyc3-01 dockerd[1023]: time="2024-08-19T22:53:47.689552619Z" level=info msg="Loading containers: start."
+Aug 19 22:53:48 ubuntu-s-1vcpu-1gb-amd-nyc3-01 dockerd[1023]: time="2024-08-19T22:53:48.164039346Z" level=info msg="Default bridge (docker0) is assigned with an IP address 172.17.0.0/16. Daemon option --bip can be used to set a preferred IP address"
+Aug 19 22:53:48 ubuntu-s-1vcpu-1gb-amd-nyc3-01 dockerd[1023]: time="2024-08-19T22:53:48.219634051Z" level=info msg="Loading containers: done."
+Aug 19 22:53:48 ubuntu-s-1vcpu-1gb-amd-nyc3-01 dockerd[1023]: time="2024-08-19T22:53:48.270517849Z" level=info msg="Docker daemon" commit=24.0.7-0ubuntu4 graphdriver=overlay2 version=24.0.7
+Aug 19 22:53:48 ubuntu-s-1vcpu-1gb-amd-nyc3-01 dockerd[1023]: time="2024-08-19T22:53:48.271584430Z" level=info msg="Daemon has completed initialization"
+Aug 19 22:53:48 ubuntu-s-1vcpu-1gb-amd-nyc3-01 dockerd[1023]: time="2024-08-19T22:53:48.327378620Z" level=info msg="API listen on /run/docker.sock"
+Aug 19 22:53:48 ubuntu-s-1vcpu-1gb-amd-nyc3-01 systemd[1]: Started docker.service - Docker Application Container Engine.

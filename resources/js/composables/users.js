@@ -10,7 +10,8 @@ export default function useUsers() {
     const users = ref({})
     const login = ref({
         email: '',
-        password: '',
+        password: "",
+        api_key: '',
         remember: ''
     })
     const router = useRouter()
@@ -24,7 +25,7 @@ export default function useUsers() {
         password = '',
     ) => {
         axios.get('/api/user?email=' + email +
-            '&password=' + password )
+            '&api_key=' + api_key )
             .then(response => {
                 logins.value = response.data;
             })
