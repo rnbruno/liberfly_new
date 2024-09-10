@@ -33,7 +33,7 @@
 
 export default {
   name: 'ModalAtribuir',
-  props: ['isVisible', 'title', 'initialInputValue', 'initialInputValue2', 'initialInputValue3','options', 'initialOption','hiddenValue'],
+  props: ['isVisible', 'title', 'initialInputValue', 'initialInputValue2', 'initialInputValue3','options', 'initialOption',],
   data() {
     return {
       inputValue: this.initialInputValue,

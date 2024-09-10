@@ -138,7 +138,7 @@ export default {
       modalInitialOption: 1,
       marcacaoId_: '',
       isModalOpen,
-      // sociosEmpresas: [],
+      sociosEmpresas: [],
       addItem,
       user,
       selectedOption: this.initialOption,
@@ -174,7 +174,6 @@ export default {
 
     // Chama a função para obter o usuário ao montar o componente
     getUserIdFromSession();
-
 
     const setOptions = () => {
       // Aqui, você mapeia os sócios para criar opções de modal
@@ -217,7 +216,6 @@ export default {
     const atualizarTelaSocioEmpresas = async (id) => {
 
       try {
-        console.log(id);
         let userIditem = id;
         let userType = "212";
         let item1 = await axios.get((`/api/socios_empresa?user_id=${userIditem}&type=${userType}`));
@@ -245,13 +243,10 @@ export default {
   created() {
     this.fetchSociosEmpresas(this.user.id_int);
   },
-  mounted() {
-    this.user = JSON.parse(localStorage.getItem("user"));
-  },
+ 
   methods: {
     async fetchSociosEmpresas(id) {
       try {
-
         let userIditem = id;
         let userType = "33@1";
         const response = await axios.get((`/api/socios_empresa?user_id=${userIditem}&type=${userType}`));
@@ -262,8 +257,6 @@ export default {
     },
 
     openModal(name, inputValue) {
-      console.log("Modal opened with name:", name);
-      console.log(this);
       this.modalTitle = "Edit Acount";
       this.modalName = name;
       this.modalInput = inputValue;
@@ -288,13 +281,14 @@ export default {
           conta: this.modalName, conta_id: this.modalInput
         });
         console.log('Item updated successfully:', response.data);
-        Swal.fire({
-          title: 'Count edit',
-          text: 'Conta editada com sucesso.',
-          icon: 'success',
-          confirmButtonText: 'OK'
-        });
-        await this.atualizarCount();
+        // Swal.fire({
+        //   title: 'Count edit',
+        //   text: 'Conta editada com sucesso.',
+        //   icon: 'success',
+        //   confirmButtonText: 'OK'
+        // });
+        // Recarregar os dados
+        await this.fetchSociosEmpresas(this.user.id_int);
       } catch (error) {
         if (error.response && error.response.data && error.response.data.message) {
           // Exibir SweetAlert de erro com a mensagem retornada pela API
@@ -316,10 +310,12 @@ export default {
       }
     },
   },
+  mounted() {
+    // Buscar os sócios na montagem do componente
+    this.fetchSociosEmpresas(this.user.id_int);
+  },
 }
-
 </script>
-
 <style scoped>
 /* Seus estilos aqui */
 text-justify {
